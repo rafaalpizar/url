@@ -10,7 +10,7 @@ help() {
 }
 
 encodeline() {
-    [[ "${1}" ]] || return 1
+    #[[ "${1}" ]] || echo "Line empty"
     local length="${#1}"
     for (( i = 0; i < length; i++ )); do
         local c="${1:i:1}"
@@ -21,10 +21,6 @@ encodeline() {
         esac
     done
 }
-
-	    # ,) printf "$c" ;;
-	    # /) printf "$c" ;;
-
 
 help
 while read line; do
