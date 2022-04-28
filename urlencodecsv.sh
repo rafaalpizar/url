@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 help() {
-    if [ $# -eq 0 ]; then
+    if [ $# -eq 0 ] && [ -z /dev/stdin ]; then
 	echo "This script transform text into URL encode."
 	echo "Its input form stdin or a file name, and its output is stdout"
 	echo
@@ -9,9 +9,7 @@ help() {
     fi
 }
 
-
 encodeline() {
-    # urlencode <string>
     [[ "${1}" ]] || return 1
     local length="${#1}"
     for (( i = 0; i < length; i++ )); do
@@ -19,8 +17,7 @@ encodeline() {
         case $c in
 	    [:,/%]) echo -n "$c" ;;
             [a-zA-Z0-9.~_-]) printf "$c" ;;
-            *) printf '%s' "$c" | xxd -p -c1 |
-                   while read c; do printf '%%%s' "$c"; done ;;
+            *) printf '%s' "$c" | xxd -p -c1 | while read c; do printf '%%%s' "$c"; done ;;
         esac
     done
 }
